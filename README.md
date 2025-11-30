@@ -62,4 +62,5 @@ After running these, we can click on the experiment name "Check localhost connec
 We can also compare multiple experiments as MLFlow also provides visualizations such as Scatter plot, box plot etc...
 <img width="1860" height="656" alt="image" src="https://github.com/user-attachments/assets/3fe082d5-6c30-4d66-91e2-0b810b563059" />
 
-
+</br>
+Since we are developing an end-to-end ML project so we will need other libraries as well such as scikit-learn, pandas, numpy...etc so add these all in requirements.txt
