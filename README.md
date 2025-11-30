@@ -31,6 +31,8 @@ pip install -r requirements.txt                     // mention mlflow in require
 ```bash
 mlflow ui
 ```
+<img width="1457" height="296" alt="image" src="https://github.com/user-attachments/assets/a462294d-c5f9-46f9-9823-50eb7ea035e2" />
+
 MLflow UI will be accessible at: http://127.0.0.1:5000
 
 MLFlow Tracking server: Whenever we create any project, we can track that project and all the other projects, for that we need a server that has all those MLflow capabilities. We can see all the Runs, Evaluation, Traces etc.
@@ -43,6 +45,9 @@ import mlflow                                                           //do thi
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("Check localhost connection")                     //just to see whether everything is working fine
 ```
+After we run this set_experiment, we can see in the MLFlow UI that a new experiment is added. </br>
+<img width="1900" height="511" alt="image" src="https://github.com/user-attachments/assets/ec1630bd-22ff-43b2-a283-0b5de6e105c6" />
+
 
 2. Now check whether we're abe to store any parameters in my server or not or whether we're able to track any parameters or not.
 ```bash
@@ -50,3 +55,6 @@ with mlflow.start_run():
   mlflow.log_metric("test",1)
   mlflow.log_metric("vivek",2)
 ```
+After running these, we can click on the experiment name "Check localhost connection" > Runs. We can see these in the metrics.
+<img width="1841" height="748" alt="image" src="https://github.com/user-attachments/assets/a47d835b-aced-4ad7-8ea3-0e8a9c8b6ed8" />
+
