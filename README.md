@@ -20,10 +20,14 @@ Can start MLflow UI on your local machine:
 ```bash
 mlflow ui
 ```
+
+- There's another way using Conda. First install Conda. Then crete a virtual env using conda and then create a requirements.txt file and add "mlflow" to it.
+```bash
+conda create -p venv python==3.10
+conda activate venv/                                // to activate the virtual environment
+pip install -r requirements.txt                     // mention mlflow in requirements.txt to install it
+```
+
 MLflow UI will be available at: http://127.0.0.1:5000
-
-
-
-
 
 
