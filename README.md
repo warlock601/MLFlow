@@ -39,7 +39,7 @@ MLFlow Tracking server: Whenever we create any project, we can track that projec
 
 ### Steps:
 
-1. First create a notebook using .ipynb extension to run the commands & Check whether everything is running fine or not.
+- First create a notebook using .ipynb extension to run the commands & Check whether everything is running fine or not.
 ```bash
 import mlflow                                                           //do this only after "mlflow ui"     
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
@@ -49,12 +49,17 @@ After we run this set_experiment, we can see in the MLFlow UI that a new experim
 <img width="1900" height="511" alt="image" src="https://github.com/user-attachments/assets/ec1630bd-22ff-43b2-a283-0b5de6e105c6" />
 
 
-2. Now check whether we're abe to store any parameters in my server or not or whether we're able to track any parameters or not.
+- Now check whether we're abe to store any parameters in my server or not or whether we're able to track any parameters or not. 
 ```bash
 with mlflow.start_run():
   mlflow.log_metric("test",1)
   mlflow.log_metric("vivek",2)
 ```
+We can put ML experiment's loss value, accuracy value, training accuracy, test accuracy etc. over here. </br>
 After running these, we can click on the experiment name "Check localhost connection" > Runs. We can see these in the metrics.
 <img width="1841" height="748" alt="image" src="https://github.com/user-attachments/assets/a47d835b-aced-4ad7-8ea3-0e8a9c8b6ed8" />
+
+We can also compare multiple experiments as MLFlow also provides visualizations such as Scatter plot, box plot etc...
+<img width="1860" height="656" alt="image" src="https://github.com/user-attachments/assets/3fe082d5-6c30-4d66-91e2-0b810b563059" />
+
 
