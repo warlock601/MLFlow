@@ -37,7 +37,7 @@ MLflow UI will be accessible at: http://127.0.0.1:5000
 
 MLFlow Tracking server: Whenever we create any project, we can track that project and all the other projects, for that we need a server that has all those MLflow capabilities. We can see all the Runs, Evaluation, Traces etc.
 
-### Steps:
+### Steps to create Experiments, Plots in MLFlow:
 
 - First create a notebook using .ipynb extension to run the commands & Check whether everything is running fine or not.
 ```bash
@@ -64,3 +64,49 @@ We can also compare multiple experiments as MLFlow also provides visualizations 
 
 </br>
 Since we are developing an end-to-end ML project so we will need other libraries as well such as scikit-learn, pandas, numpy...etc so add these all in requirements.txt
+
+### Implementation of end-to-end ML project
+We use MLFlow here to track various parameters and metrics. We'll train a ML model and while we're training with various parameters, each & every parameter of that specific experiment will be logged.
+
+- In the requirements.txt add these:
+```bash
+mlflow
+scikit-learn
+pandas
+numpy
+```
+Then run the command:
+```bash
+pip install -r requirements.txt
+```
+
+- Import pandas and datasets from Scikit-learn beacause we're going to consider some datasets that are available in the scikit-learn library. We're going to use Logistic Regression ML algo so that will also be imported from sklearn.
+```bash
+from sklearn import datasets
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import train_test_split
+import mlflow
+from mlflow.models import infer_signature
+import pandas as pd
+```
+- Set the tracking uri
+```bash
+mlflow.set_tracking_uri(uri="http://127.0.0.1:5000")
+```
+
+- Load the dataset. We're going to use "Iris" dataset which is already available insid ethe dataset library that we have imported. In Iris dataset we have 4 features: Petal length, petal width, sepal length, sepal width and based on that our output category will be like a flower. Three output categories: 012 and so these three categories will try to predict based on the input feature.
+```bash
+X,y=datasets.load_iris(return_X_y=True)
+```
+- Split the data into training and test sets. Test size is set to 0.20 which means 20% of data will be our test data.
+```bash
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.20)  
+```
+
+- Define Hyperparameters. We can get info about logisitc reg hyperparameters from below. </br>
+Scikit-learn hyperparameters: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
+```bash
+params = {"penalty":"11", "solver":"lbfgs", "max_iter":1000, "multi-class": "auto", "random_state":8888}
+```
+Here we are considering that these parameters are best for our model.
