@@ -41,9 +41,9 @@ MLFlow Tracking server: Whenever we create any project, we can track that projec
 
 - First create a notebook using .ipynb extension to run the commands & Check whether everything is running fine or not.
 ```bash
-import mlflow                                                           //do this only after "mlflow ui"     
+import mlflow                                                           ##do this only after "mlflow ui"     
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
-mlflow.set_experiment("Check localhost connection")                     //just to see whether everything is working fine
+mlflow.set_experiment("Check localhost connection")                     ##just to see whether everything is working fine
 ```
 After we run this set_experiment, we can see in the MLFlow UI that a new experiment is added. </br>
 <img width="1900" height="511" alt="image" src="https://github.com/user-attachments/assets/ec1630bd-22ff-43b2-a283-0b5de6e105c6" />
@@ -107,6 +107,52 @@ X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.20)
 - Define Hyperparameters. We can get info about logisitc reg hyperparameters from below. </br>
 Scikit-learn hyperparameters: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html
 ```bash
-params = {"penalty":"11", "solver":"lbfgs", "max_iter":1000, "multi-class": "auto", "random_state":8888}
+params = {"penalty":"12", "solver":"lbfgs", "max_iter":1000, "multi_class": "auto", "random_state":8888}
 ```
 Here we are considering that these parameters are best for our model.
+
+- Trin the model.
+```bash
+lr=LogisticRegression(**params)
+lr.fit(X_train,y_train)
+```
+we'll get something like this:
+<img width="1227" height="433" alt="image" src="https://github.com/user-attachments/assets/03325e12-95b0-438a-921d-8896b69179cd" />
+
+- Prediction on the test set. The values that we get from y_pred are based on the inputs that we provided using X_test
+```bash
+y_pred=lr.predict(X_test)
+y_pred                              ## to print y_pred
+```
+- Calculate Accuracy.
+```bash
+accuracy=accuracy_score(y_test,y_pred)
+print(accuracy)
+```
+<img width="959" height="295" alt="image" src="https://github.com/user-attachments/assets/64bb57e7-9b6b-4a99-b1dc-9d8950875eda" />
+
+- MLFlow Tracking. Start the MLFlow UI and then run this block of code.
+```bash
+
+mlflow.set_tracking_uri(uri="http://127.0.0.1:5000")
+
+mlflow.set_experiment("MLFlow Quickstart")                             # create a new experiment
+
+with mlflow.start_run():                                               # start the MLFlow run
+  mlflow.log_params(params)                                            # log the hyperparameters
+  mlflow.log_metric("acccuracy",accuracy)                              # log the accuracy metrics
+  mlflow.set_tag("Training Info","basic LR model for iris data")       # set a tag that we can use to remind ourselves what this run was for
+  signature=infer_signature(X_train,lr.predict(X_train))
+
+  # log the model
+  model_info=mlflow.sklearn.log_model(
+      sk_model=lr,                                                     # lr is the model name
+      artifact_path="iris_model",
+      signature=signature,
+      input_example=X_train,
+      registered_model_name="tracking-quickstart"
+  )                                
+  
+```
+infer_signature() is used to infer model signature form the training data(input), model predictions(output) and parameters(for inference). The signature represents model input and output as data frames with named columns. This method will raise an exception if the user data contains incomptible types. 
+In "mlruns" folder we can see all the artifacts, metrics like accuracy, parameters like max_iter...
