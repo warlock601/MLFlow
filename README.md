@@ -164,7 +164,8 @@ Later, you give it a new image and ask “Is this a cat or a dog?” → that’
 
 
 ### Inferencing & Validating the model:
-- We're gonna need the Model uri so first we'll fetch that. Inside this artifact only I'll be able to find my pickle file and all which is being referenced by the MLFlow UI.
+- We're gonna need the Model uri so first we'll fetch that. Inside this artifact only I'll be able to find my pickle file and all which is being referenced by the MLFlow UI. </br>
+The model is logged with an input example. MLFlow converts it into the serving payload format for the deployed model endpoint, and saves it to "serving_input_payload.json"
 ```bash
 model_info.model_uri                  # it can be model_uri or uri depending on whatever we specified.
 ```
@@ -268,7 +269,7 @@ Once we execute this, we will get an output like this: </br>
 This is how we validate ansd see whther for a new test data everything if working fine or not. </br>
 
 - There's another way of doing it in the form of a generic Python function.
-Best thing about this is that these are generic things so you don't have to set the input and output each & every time.
+Best thing about this is that these are generic things so you don't have to set the input and output each & every time. Uese a generic format to load a specific model so that it is generic to all the libraries we will be using.
 ```bash
 ## Load the model back for prediction as a generic Python function model
 
@@ -278,6 +279,25 @@ predictions=loaded_model.predict(X_test)
 iris_features_name=datasets.load_iris().feature_names
 
 result=pd.DataFrame(X_test,columns=iris_features_name)
+result["actual_class"]=y_test
+result["predicted_class"]=predictions
+
+## show the result
+result
+
+## Show the top 5 rows
+result[:5]
+
 ```
 Result will be something like this:
-<img width="783" height="634" alt="image" src="https://github.com/user-attachments/assets/c17e0174-8db9-4cb2-9a17-272a6b80322c" />
+<img width="845" height="640" alt="image" src="https://github.com/user-attachments/assets/dcecb9ae-c8b4-4228-adcf-c8cc3889aeb6" />
+
+
+### Model Registry
+The MLFlow Registry component is a centralized model store, set of APIs, and UI to collaboratively manage the full lifecycle of an MLFlow model. It provides model lineage, model versioning, model aliasing, model tagging and annotations. </br>
+The best use case of model registry is that it acts like a store. 
+
+#### How to register a model after we validate things.
+Whenever we are solving a ML problem statement, we should not directly register the model name. Because we need to validte whether this is the best model or not. If it is the best model, then only we should validate and register that particular model name. </br>
+So how to register a model in the later stages after we've validated things?
+
