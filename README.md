@@ -270,4 +270,14 @@ This is how we validate ansd see whther for a new test data everything if workin
 - There's another way of doing it in the form of a generic Python function.
 Best thing about this is that these are generic things so you don't have to set the input and output each & every time.
 ```bash
-## Load the model back for prediction as a generic Python function model.
+## Load the model back for prediction as a generic Python function model
+
+loaded_model=mlflow.pyfunc.load_model(model_info.model_uri)
+predictions=loaded_model.predict(X_test)
+
+iris_features_name=datasets.load_iris().feature_names
+
+result=pd.DataFrame(X_test,columns=iris_features_name)
+```
+Result will be something like this:
+<img width="783" height="634" alt="image" src="https://github.com/user-attachments/assets/c17e0174-8db9-4cb2-9a17-272a6b80322c" />
