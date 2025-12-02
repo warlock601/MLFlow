@@ -65,7 +65,7 @@ We can also compare multiple experiments as MLFlow also provides visualizations 
 </br>
 Since we are developing an end-to-end ML project so we will need other libraries as well such as scikit-learn, pandas, numpy...etc so add these all in requirements.txt
 
-### Implementation of end-to-end ML project
+### Training the model:
 We use MLFlow here to track various parameters and metrics. We'll train a ML model and while we're training with various parameters, each & every parameter of that specific experiment will be logged.
 
 - In the requirements.txt add these:
@@ -156,3 +156,118 @@ with mlflow.start_run():                                               # start t
 ```
 infer_signature() is used to infer model signature form the training data(input), model predictions(output) and parameters(for inference). The signature represents model input and output as data frames with named columns. This method will raise an exception if the user data contains incomptible types. 
 In "mlruns" folder we can see all the artifacts, metrics like accuracy, parameters like max_iter...
+
+Difference between Inference & Training? </br>
+Inference is the process of feeding new, unseen data into a trained ML model to get an output. It is what happens after training. </br>
+Example: You train a model on thousands of cat/dog images → that’s training. </br>
+Later, you give it a new image and ask “Is this a cat or a dog?” → that’s inference.
+
+
+### Inferencing & Validating the model:
+- We're gonna need the Model uri so first we'll fetch that. Inside this artifact only I'll be able to find my pickle file and all which is being referenced by the MLFlow UI.
+```bash
+model_info.model_uri                  # it can be model_uri or uri depending on whatever we specified.
+```
+
+- Import he model and provide the input. Input will be given in the form of input key which will be a list of list values.
+```bash
+## Inferencing & Validation
+
+from mlflow.models import validate_serving_input
+
+model_uri = 'models:/m-5d38b7f1e310456396c370e662a99571'
+
+serving_payload = """{
+    "inputs": [
+        [
+            5.7,
+            3.8,
+            1.7,
+            0.3
+        ],
+        [
+            4.8,
+            3.4,
+            1.6,
+            0.2
+        ],
+        [
+            5.6,
+            2.9,
+            3.6,
+            1.3
+        ],
+        [
+            5.4,
+            3.7,
+            1.5,
+            0.2
+        ],
+        [
+            6.7,
+            3.3,
+            5.7,
+            2.5
+        ],
+        [
+            6.7,
+            3.3,
+            5.7,
+            2.5 
+        ],
+        [
+            6.7,
+            3.3,
+            5.7,
+            2.5 
+        ],
+        [
+            6.7,
+            3.3,
+            5.7,
+            2.5 
+        ],
+        [
+            5.4,
+            3.7,
+            1.5,
+            0.2
+        ],
+        [
+            5.4,
+            3.7,
+            1.5,
+            0.2
+        ],
+        [
+            5.7,
+            3.8,
+            1.7,
+            0.3
+        ],
+        [
+            5.7,
+            3.8,
+            1.7,
+            0.3
+        ],
+        [
+            5.7,
+            3.8,
+            1.7,
+            0.3
+        ]
+    ]
+}"""
+
+# Validate the serving payload works on the model
+validate_serving_input(model_uri, serving_payload)
+```
+Once we execute this, we will get an output like this: </br>
+<img width="452" height="59" alt="image" src="https://github.com/user-attachments/assets/4762eb3c-f7a0-4314-bf1d-aec93b5baf4b" /> </br>
+This is how we validate ansd see whther for a new test data everything if working fine or not. </br>
+
+- There's another way of doing it in the form of a generic Python function.
+Best thing about this is that these are generic things so you don't have to set the input and output each & every time.
+```bash
+## Load the model back for prediction as a generic Python function model.
