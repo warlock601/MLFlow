@@ -301,3 +301,14 @@ The best use case of model registry is that it acts like a store.
 Whenever we are solving a ML problem statement, we should not directly register the model name. Because we need to validte whether this is the best model or not. If it is the best model, then only we should validate and register that particular model name. </br>
 So how to register a model in the later stages after we've validated things?
 
+
+### House Price Prediction with MLFlow
+We'll develop an end-to-end MLOps workflow for a House Price Prediction Model. </br>
+we will:
+- Run a hyperparameter tuning while training a model
+- Log every Hyperparameter and metrics in the MLFlow UI
+- Compare the results of the various runs in the MLFlow UI
+- Choose the best run and register it as a model
+
+
+
