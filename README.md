@@ -11,6 +11,10 @@ pip install --upgrade pip
 python3 -m venv mlflow-env
 source mlflow-env/bin/activate
 ```
+- Install ipykernel and other libraries such as pandas, scikit-learn etc
+```bash
+pip install ipykernel
+``` 
 - Install MLflow
 ```bash
 pip install mlflow
@@ -311,10 +315,120 @@ we will:
 - Choose the best run and register it as a model
 
 #### Steps:
-- Import Libraries.
+- Import Libraries. With GridSearchCV we will poerform hyperparameter tuning. And here we are taking "california_housing_dataset"
 ```bash
 import pandas as pd
 import mlflow
 import mlflow.sklearn
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import train_test_split,GridSearchCV
 ```  
+
+- Prepare this data in a proper way so that we can refer it.
+```bash
+data=pd.DataFrame(housing.data, columns=housing.feature_names)
+data.head()
+```
+using data.head() we can see what are all the input features and values.
+<img width="667" height="171" alt="image" src="https://github.com/user-attachments/assets/61c40ce4-254f-4ba4-b4b8-f31d74a34c5e" />
+
+- We will create a new Output feature where we specify where the value for this feature is available. For eg: "target" variable here.</br>
+Value is the Output feature and rest all are input features.
+```bash
+data['Price']=housing.target
+
+data.head(10)                     # displaying top 10 values
+```
+
+- Now we divide the data into Independent & Dependent features.
+```bash
+## Independent & Dependent features
+## X denotes Independent
+## y denotes Dependent
+
+X=data.drop(columns=["Price"])
+y=data["Price"]
+```
+
+- Split data into Training and test sets. infer_signature is used so that we set our schema with respect to our input and output. Hyperparameter Grid means what hyperparameter tuning we really want to do.</br> For eg we have: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestRegressor.html using RandomForestRegressor we can do our hyperparameter tuning. </br>
+</br>
+Took the parameters from the link above and modified the values in the "param_grid". </br>
+</br>
+Before we start the MLFlow experiments, we need to perform the hyperparameter tuning and why we did not performed it before is because we need the "param_grid". So in the notebook, a code block was created for hyperparameter tuning before the split data code block. </br>
+</br>
+In Hyperparameter tuning, we'll create a variable called grid_search in which we will use estimator which is nothing but RandomForest, param_grid, Crossvalidation "cv" like how many different types of crossvalidations we really need to do, n_jobs to specify cores of CPU and if we want to use all the cores of our CPU then n_jobs=-1, verbose, scoring parameter (we can get it from here: https://scikit-learn.org/stable/modules/model_evaluation.html
+
+Evaluation is like it will try to predict the test data and try to find out how much mean squared error we're gonna get.</br>
+</br>
+Best estimator means what all best parameters are used from the used hyperparameters
+```bash
+# this will run before the code-block below
+# hyperparametertuning using grid searchcv
+def hyperparamater_tuning(X_train,y_train,param_grid):
+    rf=RandomForestRegressor()
+    grid_search=GridSearchCV(estimator=rf,param_grid=param_grid,cv=3,n_jobs=-1,verbose=2,scoring="neg_mean_squared_error")
+    grid_search.fit(X_train,y_train)
+    return grid_search
+```
+```bash
+# Split the data into training and test data
+# X_train will have training input features
+# X_test will have test input features
+# y_train is output
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.20)
+
+# infer_signature is used so that we set our schema with respect to our input and output
+from mlflow.models import infer_signature
+signature=infer_signature(X_train,y_train)
+
+# Define the hyperparameter grid
+param_grid= {
+    'n_estimators':[100,200],
+    'max_depth':[5,10,None], 
+    'min_samples_split':[2,5],
+    'min_samples_leaf':[1,2]
+}
+```
+```bash
+# start with MLFlow experiments
+
+with mlflow.start_run():
+
+    # perform hyperparameter tuning
+    grid_search=hyperparamater_tuning(X_train,y_train,param_grid)
+
+    # get the best model
+    best_model=grid_search.best_estimator_
+
+    # Evaluate the best model
+    y_pred=best_model.predict(X_test)
+    mse=mean_squared_error(y_test,y_pred)
+
+    # log best parameters and metrics
+    mlflow.log_param("best_n_estimators",grid_search.best_params_['n_estimators'])
+    mlflow.log_param("best_max_depth",grid_search.best_params_['max_depth'])
+    mlflow.log_param("best_min_samples_split",grid_search.best_params_['min_samples_split'])
+    mlflow.log_param("best_min_samples_leaf",grid_search.best_params_['min_samples_leaf'])
+    mlflow.log_metric("mse",mse)
+
+    # Tracking url
+    mlflow.set_tracking_uri(uri="http://127.0.0.1:5000")
+    tracking_url_type_store=urlparse(mlflow.get_tracking_uri()).scheme
+
+    # If it is a file, we'll just go ahead and setup a signature but if it is a remote server tracking uri, 
+    # then we can directly register that particular model based on the best model that we've got.
+    if tracking_url_type_store !='file':
+        mlflow.sklearn.log_model(best_model,"model",registered_model_name="Best RandomForest model")
+    else: 
+        mlflow.sklearn.log_model(best_model,"model",signature=signature)
+    
+    print(f"Best Hyperparameters: {grid_search.best_params_}")
+    print(f"Mean Squared Error: {mse}")
+```
+
+This training will take time based on the hyperparameter tuning that we're going to do.
+<img width="1542" height="551" alt="image" src="https://github.com/user-attachments/assets/a17d8726-9625-4c95-9bc0-7cbe054fbc58" />
+<img width="1857" height="850" alt="image" src="https://github.com/user-attachments/assets/300bbea1-88e7-4c25-a4a8-514974af7566" />
+<img width="1015" height="637" alt="image" src="https://github.com/user-attachments/assets/2c221887-ce30-4558-b37c-df2699213f25" />
+
+
