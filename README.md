@@ -60,9 +60,11 @@ with mlflow.start_run():
   mlflow.log_metric("vivek",2)
 ```
 We can put ML experiment's loss value, accuracy value, training accuracy, test accuracy etc all these parameters over here. </br>
-This will create a new run for that specific experiment everytime.
-After running these, we can click on the experiment name "Check localhost connection" > Runs. We can see these in the metrics.
-<img width="1841" height="748" alt="image" src="https://github.com/user-attachments/assets/a47d835b-aced-4ad7-8ea3-0e8a9c8b6ed8" />
+This will create a new run for that specific experiment everytime. This "peaceful-moth-779" is the name of run for the experiment "Experiment 1" and inside this run we can see the metrics: "test1" and "test2". Generally we put metrics such as  ML experiment's loss value, accuracy value, training accuracy, test accuracy etc.
+After running these, we can click on the experiment name "Experiment 1" > Runs. We can see these in the metrics.
+<img width="2380" height="784" alt="image" src="https://github.com/user-attachments/assets/6c2a58ad-a95e-453e-af86-e054e7d535c2" />
+<img width="2644" height="1026" alt="image" src="https://github.com/user-attachments/assets/803589af-70d6-4c6a-9edd-d52bd8f5ac1b" />
+
 
 We can also compare multiple experiments as MLFlow also provides visualizations such as Scatter plot, box plot etc...
 <img width="1860" height="656" alt="image" src="https://github.com/user-attachments/assets/3fe082d5-6c30-4d66-91e2-0b810b563059" />
