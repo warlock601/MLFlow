@@ -68,8 +68,16 @@ If we open any of the metric, we get something like this: </br>
 <img width="2284" height="1298" alt="image" src="https://github.com/user-attachments/assets/a6515676-d612-48cc-8014-72bab1dd81ba" />
 
 
+Now when we logged let say 2 more metrics:
+<img width="1156" height="310" alt="image" src="https://github.com/user-attachments/assets/f00aa352-2dac-4356-aff0-b37d83ea7933" />
+It will automatically create a new run for that experiment:
+<img width="1916" height="666" alt="image" src="https://github.com/user-attachments/assets/214e0fb8-c42a-4d7b-b924-760774fe4101" />
+
 We can also compare multiple experiments as MLFlow also provides visualizations such as Scatter plot, box plot etc...
 <img width="1860" height="656" alt="image" src="https://github.com/user-attachments/assets/3fe082d5-6c30-4d66-91e2-0b810b563059" />
+Or we can compare multiple runs from the same experiment: Here we're comparing run1 with metrics: test1,test2 and run2: test3,test4.
+<img width="2350" height="1176" alt="image" src="https://github.com/user-attachments/assets/b2dcd42a-be22-444c-80d5-00bfa5c1e976" />
+
 
 </br>
 Since we are developing an end-to-end ML project so we will need other libraries as well such as scikit-learn, pandas, numpy...etc so add these all in requirements.txt
