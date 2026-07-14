@@ -59,7 +59,7 @@ with mlflow.start_run():
   mlflow.log_metric("test",1)
   mlflow.log_metric("vivek",2)
 ```
-We can put ML experiment's loss value, accuracy value, training accuracy, test accuracy etc. over here. </br>
+We can put ML experiment's loss value, accuracy value, training accuracy, test accuracy etc all these parameters over here. </br>
 After running these, we can click on the experiment name "Check localhost connection" > Runs. We can see these in the metrics.
 <img width="1841" height="748" alt="image" src="https://github.com/user-attachments/assets/a47d835b-aced-4ad7-8ea3-0e8a9c8b6ed8" />
 
