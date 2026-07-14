@@ -64,6 +64,8 @@ This will create a new run for that specific experiment everytime. This "peacefu
 After running these, we can click on the experiment name "Experiment 1" > Runs. We can see these in the metrics.
 <img width="2380" height="784" alt="image" src="https://github.com/user-attachments/assets/6c2a58ad-a95e-453e-af86-e054e7d535c2" />
 <img width="2644" height="1026" alt="image" src="https://github.com/user-attachments/assets/803589af-70d6-4c6a-9edd-d52bd8f5ac1b" />
+If we open any of the metric, we get something like this: </br>
+<img width="2284" height="1298" alt="image" src="https://github.com/user-attachments/assets/a6515676-d612-48cc-8014-72bab1dd81ba" />
 
 
 We can also compare multiple experiments as MLFlow also provides visualizations such as Scatter plot, box plot etc...
