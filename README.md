@@ -180,6 +180,9 @@ Inference is the process of feeding new, unseen data into a trained ML model to 
 Example: You train a model on thousands of cat/dog images → that’s training. </br>
 Later, you give it a new image and ask “Is this a cat or a dog?” → that’s inference.
 
+After executing this, in models in MLFlow UI we can see Overview, Traces, Artifacts:
+<img width="1930" height="846" alt="image" src="https://github.com/user-attachments/assets/89c999e2-034b-4104-8fa8-3ddaebe48390" />
+
 
 ### Inferencing & Validating the model:
 - We're gonna need the Model uri so first we'll fetch that. Inside this artifact only I'll be able to find my pickle file and all which is being referenced by the MLFlow UI. </br>
