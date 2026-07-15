@@ -157,7 +157,7 @@ mlflow.set_experiment("MLFlow Quickstart")                             # create 
 
 with mlflow.start_run():                                               # start the MLFlow run
   mlflow.log_params(params)                                            # log the hyperparameters
-  mlflow.log_metric("acccuracy",accuracy)                              # log the accuracy metrics
+  mlflow.log_metric("acccuracy",accuracy)                              # log the accuracy metric (similarly we can have F1-score, AUC etc)
   mlflow.set_tag("Training Info","basic LR model for iris data")       # set a tag that we can use to remind ourselves what this run was for
   signature=infer_signature(X_train,lr.predict(X_train))
 
