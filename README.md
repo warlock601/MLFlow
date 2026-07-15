@@ -159,7 +159,7 @@ with mlflow.start_run():                                               # start t
   mlflow.log_params(params)                                            # log the hyperparameters
   mlflow.log_metric("acccuracy",accuracy)                              # log the accuracy metric (similarly we can have F1-score, AUC etc)
   mlflow.set_tag("Training Info","basic LR model for iris data")       # set a tag that we can use to remind ourselves what this run was for
-  signature=infer_signature(X_train,lr.predict(X_train))
+  signature=infer_signature(X_train,lr.predict(X_train))               # Infer the model signature
 
   # log the model
   model_info=mlflow.sklearn.log_model(
@@ -171,7 +171,8 @@ with mlflow.start_run():                                               # start t
   )                                
   
 ```
-infer_signature() is used to infer model signature form the training data(input), model predictions(output) and parameters(for inference). The signature represents model input and output as data frames with named columns. This method will raise an exception if the user data contains incomptible types. 
+infer_signature() is used to infer model signature form the training data(input), model predictions(output) and parameters(for inference). The signature represents model input and output as data frames with named columns. This method will raise an exception if the user data contains incomptible types. </br>
+Inferring a model signature means automatically detecting and defining the exact data types and shapes (schemas) your model expects as input and produces as output. It essentially creates a strict "contract" between the model and any services, APIs, or databases that query it.
 In "mlruns" folder we can see all the artifacts, metrics like accuracy, parameters like max_iter...
 
 Difference between Inference & Training? </br>
