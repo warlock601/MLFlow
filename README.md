@@ -180,7 +180,7 @@ Inference is the process of feeding new, unseen data into a trained ML model to 
 Example: You train a model on thousands of cat/dog images → that’s training. </br>
 Later, you give it a new image and ask “Is this a cat or a dog?” → that’s inference.
 
-After executing this, in models in MLFlow UI we can see Overview, Traces, Artifacts:
+After executing this, in models in MLFlow UI we can see Overview, Traces, Artifacts: In Artifacts, the whole application is packaged intot hese given files with model.pkl, requirements.txt, conda.yaml, 
 <img width="1930" height="846" alt="image" src="https://github.com/user-attachments/assets/89c999e2-034b-4104-8fa8-3ddaebe48390" />
 
 
